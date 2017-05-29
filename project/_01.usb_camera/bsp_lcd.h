@@ -1,6 +1,3 @@
-#ifdef __BSP_LCD_H
-#define __BSP_LCD_H
-
 #define WHITE   0x00ffffff
 #define BLACK   0x00000000
 #define RED     0x00ff0000
@@ -12,5 +9,3 @@ void lcd_draw_point(int x, int y, unsigned int color);
 void lcd_draw_line(int y, unsigned int color);
 void lcd_draw_line_colorful(unsigned char *src, unsigned char* dst, unsigned int width);
 void lcd_clear_screen(unsigned int color);
-
-#endif /* __BSP_LCD_H */

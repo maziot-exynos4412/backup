@@ -4,10 +4,10 @@
 #include <sys/ioctl.h>
 #include <sys/mman.h>
 
-int lcd_fd = -1;                                        // LCD 帧缓冲文件描述符
-static struct fb_var_screeninfo var;                    // LCD 固定参数信息
-static struct fb_fix_screeninfo fix;                    // LCD 可变参数信息
-unsigned char* fbmem = NULL;                            // LCD 映射到 DDR 中的首地址
+int lcd_fd = -1;                                 // LCD 帧缓冲文件描述符
+struct fb_var_screeninfo var;                    // LCD 固定参数信息
+struct fb_fix_screeninfo fix;                    // LCD 可变参数信息
+unsigned char* fbmem = NULL;                     // LCD 映射到 DDR 中的首地址
 
 /**
  * @brief lcd 显示相关的初始化操作
@@ -27,9 +27,6 @@ int lcd_init(void)
         /* 获取保存 LCD 参数信息的结构体 */
         ioctl(lcd_fd, FBIOGET_VSCREENINFO, &var);       // 获取固定参数
         ioctl(lcd_fd, FBIOGET_FSCREENINFO, &fix);       // 获取可变参数
-
-        /* 计算出 */
-        // line_width  = var.xres * var.bits_per_pixel / 8;
 
         /* 映射帧缓冲到 DDR 中，以后操作这片内存就是直接操作 LCD */
         fbmem = (unsigned char*)mmap(NULL, fix.smem_len, PROT_READ | PROT_WRITE, MAP_SHARED, lcd_fd ,0);

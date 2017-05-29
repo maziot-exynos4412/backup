@@ -1,8 +1,3 @@
-#ifdef __BSP_CAMERA_H
-#define __BSP_CAMERA_H
-
-int camera_init(void);
-void *camera_pthread(void * arg);
 
 #pragma pack(push)//入栈保护
 #pragma pack(1)//以下结构体以一个字节对齐
@@ -30,5 +25,6 @@ typedef struct {
 } T_BITMAPINFOHEADER,*PT_BITMAPINFOHEADER;
 #pragma pack(pop)
 
-
-#endif /* __BSP_CAMERA_H */
+int camera_init(void);
+void *camera_pthread(void * arg);
+void camera_start(void);
