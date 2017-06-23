@@ -15,7 +15,8 @@ static irqreturn_t key_handler(int irq, void *dev)
         if(!gpio_get_value(EXYNOS4_GPX3(2)))
         {
                 printk("Button press\n");
-        }else
+        }
+        else
         {
                 printk("Button loosen\n");
         }
