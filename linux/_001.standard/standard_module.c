@@ -48,18 +48,18 @@ static int __init mod_init(void)
         int ret;
         ret = alloc_chrdev_region(&tiny4412_devno, tiny4412_minor, 1, "standard_device");
         tiny4412_major = MAJOR(tiny4412_devno);
-        if (ret < 0) 
+        if (ret < 0)
         {
                 printk(KERN_ERR "cannot get tiny4412_major %d \n", tiny4412_major);
                 return -1;
         }
-        
+
         standard_device = cdev_alloc();
-        if (standard_device != NULL) 
+        if (standard_device != NULL)
         {
                 cdev_init(standard_device, &tiny4412_fops);
                 standard_device->owner = THIS_MODULE;
-                if (cdev_add(standard_device, tiny4412_devno, 1) != 0) 
+                if (cdev_add(standard_device, tiny4412_devno, 1) != 0)
                 {
                         printk(KERN_ERR "add cdev error!\n");
                         goto error;
@@ -78,7 +78,7 @@ static int __init mod_init(void)
                 return -1;
         }
         device_create(tiny4412_class, NULL, tiny4412_devno, NULL, "standard_device");
-        
+
         printk(KERN_INFO "mod_init ok\n");
         return 0;
 
