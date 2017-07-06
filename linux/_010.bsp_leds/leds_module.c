@@ -20,12 +20,12 @@ static int tiny4412_open(struct inode *my_indoe, struct file *my_file)
 static int tiny4412_release(struct inode *my_indoe, struct file *my_file)
 {
         int i;
-        
+
         for(i = 0; i < 4; i++)
         {
                 gpio_set_value(EXYNOS4X12_GPM4(i), 1);
         }
-        
+
         printk(KERN_INFO "release close the led\n");
         return 0;
 }
@@ -45,14 +45,14 @@ static ssize_t tiny4412_write(struct file *my_file, const char __user *buff, siz
 static int tiny4412_ioctl(struct file *filp, unsigned int cmd, unsigned long arg)
 {
         int i;
-        
+
         switch(cmd)
         {
         case LED_ON:
                 gpio_set_value(EXYNOS4X12_GPM4(arg), 0);
                 printk(KERN_INFO "ioctl open the led\n");
                 break;
-                
+
         case LED_OFF:
                 gpio_set_value(EXYNOS4X12_GPM4(arg), 1);
                 printk(KERN_INFO "ioctl close the led\n");
@@ -79,19 +79,19 @@ static struct file_operations tiny4412_fops =
 static struct miscdevice misc =
 {
         .minor = 255,
-        .name  = "led_device",
+        .name  = "leds_device",
         .fops  = &tiny4412_fops,
 };
 
 static int __init mod_init(void)
 {
         int ret, i;
-        
+
         for(i = 0; i < 4; i++)
         {
                 gpio_free(EXYNOS4X12_GPM4(i));
                 ret = gpio_request(EXYNOS4X12_GPM4(i), "led");
-                if (ret) 
+                if (ret)
                 {
                         printk(KERN_INFO "gpio_request fail");
                         return ret;
@@ -99,7 +99,7 @@ static int __init mod_init(void)
                 s3c_gpio_cfgpin(EXYNOS4X12_GPM4(i), S3C_GPIO_OUTPUT);
                 gpio_set_value(EXYNOS4X12_GPM4(i), 1);
         }
-        
+
         misc_register(&misc);
         printk(KERN_INFO "mod_init ok\n");
         return 0;
@@ -108,12 +108,12 @@ static int __init mod_init(void)
 static void __exit mod_exit(void)
 {
         int i;
-        
+
         for(i = 0; i < 4; i++)
         {
                 gpio_free(EXYNOS4X12_GPM4(i));
         }
-        
+
         misc_deregister(&misc);
         printk(KERN_INFO "mod_exit ok\n");
 }

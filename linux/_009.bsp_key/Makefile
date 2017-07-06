@@ -1,13 +1,16 @@
 obj-m += key_module.o
 
-KERNEL = /home/user/exynos/source/linux-3.5
+KERNEL = /home/user/Workspace/exynos/kernel
+SHARE = /home/user/Share
 
 all:
-	@make -C $(KERNEL) M=`pwd` modules
-	@arm-linux-gcc key_app.c -o app
-	cp app ~/board
-	cp *.ko ~/board
+	make -C $(KERNEL) M=`pwd` modules
+	arm-linux-gcc key_app.c -o app
+	rm -rf $(SHARE)/*
+	cp -f *.ko $(SHARE)/
+	cp -f app $(SHARE)/
+	make clean
 	@echo "\033[31m >>>>>> make all successful <<<<<< \033[0m"
-
-
-
+clean:
+	make -C $(KERNEL) M=`pwd` modules clean
+	rm -f app

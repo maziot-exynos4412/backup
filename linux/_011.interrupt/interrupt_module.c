@@ -29,8 +29,13 @@ static int __init mod_init(void)
         gpio_free(EXYNOS4_GPX3(2));
         gpio_request(EXYNOS4_GPX3(2), "key1");
         s3c_gpio_cfgpin(EXYNOS4_GPX3(2), S3C_GPIO_INPUT);
+
+        // 使用此函数过去到 GPIO 引脚对应的中断编号
         irq = gpio_to_irq(EXYNOS4_GPX3(2));
+
+        // 设置中断触发方式为: 双边沿触发
         ret = request_irq(irq, key_handler, IRQ_TYPE_EDGE_BOTH, "key", NULL);
+
         if(ret != 0)
         {
                 printk("request the %d interrupt fail\n", irq);
