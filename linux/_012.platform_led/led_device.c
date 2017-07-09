@@ -10,7 +10,7 @@ static struct resource led_resource[] =
         [0] =
         {
                 .start = 0x110002E0,
-                .end   = 0x110002E4,
+                .end   = 0x110002E8,
                 .name  = "led",
                 .flags = IORESOURCE_MEM,
         },
