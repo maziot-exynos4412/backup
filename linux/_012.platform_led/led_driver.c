@@ -16,14 +16,14 @@ static int tiny4412_open(struct inode *my_indoe, struct file *my_file)
 {
         *GPM4CON &= ~(0xf << 0 * 4);
         *GPM4CON |= (1 << 0 * 4);
-        printk(KERN_INFO "open set the gpio to output mode\n");
+        printk(KERN_INFO "[%s][%d] open set the gpio to output mode\n", __func__, __LINE__);
         return 0;
 }
 
 static int tiny4412_release(struct inode *my_indoe, struct file *my_file)
 {
         *GPM4DAT |= (1 << 0);
-        printk(KERN_INFO "release close the led\n");
+        printk(KERN_INFO "[%s][%d] release close the led\n", __func__, __LINE__);
         return 0;
 }
 
@@ -100,6 +100,7 @@ static struct platform_driver tiny4412_led_driver =
 {
         .probe  = tiny4412_led_probe,
         .remove = tiny4412_led_remove,
+        // 通过 driver 名和 device 名简单匹配进入 probe 函数
         .driver =
         {
                 .name = "tiny4412_led",
